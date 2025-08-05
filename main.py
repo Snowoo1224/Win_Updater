@@ -1,5 +1,5 @@
-from imports import *
-from df import *
+from boot.importers import *
+from boot.helpers import *
 import platform
 import win32com.client
 from colorama import init, Fore
@@ -28,18 +28,18 @@ while True :
     if choose == "1" :
         clear_screen()
         win_updater_logo()
-        print("                    ┌─────────────────────────────────────┐")
-        print("                    │                                     │")
-        print("                    │           " + YL + "Host information" + NO + "          │")
-        print("                    │                                     │")
-        print("                    │         Windows :" + CY + "", end=' ')
+        print("                    ┌────────────────────────────────────┐")
+        print("                    │                                    │")
+        print("                    │          " + YL + "Host information" + NO + "          │")
+        print("                    │                                    │")
+        print("                    │        Windows :" + CY + "", end=' ')
         print(platform.version() + NO + "        │")
-        print("                    │         Architecture :" + MA + "", end=' ')
+        print("                    │        Architecture :" + MA + "", end=' ')
         print(platform.machine() + NO + "        │")
-        print("                    │           Python :" + YL + "", end=' ')
+        print("                    │          Python :" + YL + "", end=' ')
         print(platform.python_version() + NO + "           │")
-        print("                    │                                     │")
-        print("                    └─────────────────────────────────────┘")
+        print("                    │                                    │")
+        print("                    └────────────────────────────────────┘")
         input()
         back_home()
         
@@ -48,63 +48,42 @@ while True :
         print()
         print()
         print()
-        print("                    ┌─────────────────────────────────────┐")
-        print("                    │                                     │")
-        print("                    │             " + CY + "╔═══╗ ╔═══╗" + NO + "             │")
-        print("                    │             " + CY + "║   ║ ║   ║" + NO + "             │")
-        print("                    │             " + CY + "╚═══╝ ╚═══╝" + NO + "             │")
-        print("                    │             " + CY + "╔═══╗ ╔═══╗" + NO + "             │")
-        print("                    │             " + CY + "║   ║ ║   ║" + NO + "             │")
-        print("                    │             " + CY + "╚═══╝ ╚═══╝" + NO + "             │")
-        print("                    │                                     │")
-        print("                    │        " + YL + " Program information" + NO + "         │")
-        print("                    │                                     │")
-        print("                    │          Version : " + GR + "1.0.0R" + NO + "           │")
-        print("                    │        Builder : " + BL + "Snowoo1224" + NO + "         │")
-        print("                    │                                     │")
-        print("                    └─────────────────────────────────────┘")
+        print("                    ┌────────────────────────────────────┐")
+        print("                    │                                    │")
+        print("                    │             " + CY + "╔═══╗ ╔═══╗" + NO + "            │")
+        print("                    │             " + CY + "║   ║ ║   ║" + NO + "            │")
+        print("                    │             " + CY + "╚═══╝ ╚═══╝" + NO + "            │")
+        print("                    │             " + CY + "╔═══╗ ╔═══╗" + NO + "            │")
+        print("                    │             " + CY + "║   ║ ║   ║" + NO + "            │")
+        print("                    │             " + CY + "╚═══╝ ╚═══╝" + NO + "            │")
+        print("                    │                                    │")
+        print("                    │        " + YL + " Program information" + NO + "        │")
+        print("                    │                                    │")
+        print("                    │          Version : " + GR + "1.0.1R" + NO + "          │")
+        print("                    │        Builder : " + BL + "Snowoo1224" + NO + "        │")
+        print("                    │                                    │")
+        print("                    └────────────────────────────────────┘")
         input()
         back_home()
             
-    if choose == "3" :
-        clear_screen()
-        win_updater_logo()
-        print("                    ┌─────────────────────────────────────┐")
-        print("                    │                                     │")
-        print("                    │        Getting information...       │")
-        print("                    │                                     │")
-        print("                    └─────────────────────────────────────┘")
-        update_session = win32com.client.Dispatch("Microsoft.Update.Session")
-        update_searcher = update_session.CreateUpdateSearcher()
-        search_result = update_searcher.Search("IsInstalled=0")
-        clear_screen()
-        win_updater_logo()
-        
-        if search_result.Updates.Count == 0 :
-            print("                          No update exists to install")
-            input("                             Press Enter to Exit...")
-            clear_screen()
-            home_screen()
+    if choose == "3":
+        try:
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            quick_py_path = os.path.join(current_dir, 'quick.py')
+            python_exe = sys.executable
+            result = subprocess.run([python_exe, quick_py_path])
             
-        else :
-            print("                       An update has been found. (", search_result.Updates.Count, ")")
-            yorn = input("                       Do you want to update it? (Y/N) ")
-            if yorn.lower() in ["yes" , "y"] :
+            if result.returncode == 0:
+                print("                          No update exists to install")
+                input("                             Press Enter to Exit...")
                 clear_screen()
-                win_updater_logo()
-                updates_to_download = win32com.client.Dispatch("Microsoft.Update.UpdateColl")
+                home_screen()
                 
-                for i in range(search_result.Updates.Count):
-                    update = search_result.Updates.Item(i)
-                    print({update.Title})
-                    updates_to_download.Add(update)   
+            if result.returncode == 1:
+                clear_screen()
+                home_screen()
 
-                downloader = update_session.CreateUpdateDownloader()
-                downloader.Updates = updates_to_download
-                download_result = downloader.Download()
-                
-                if download_result.ResultCode == 2 :
-                    installer = update_session.CreateUpdateInstaller()
-                    installer.Updates = updates_to_download
-                    installation_result = installer.Install()
-                    input("Update installation is complete.")
+        except FileNotFoundError:
+            print("MISSING : [quick.py] file not found.")
+        except Exception as e:
+            print(f"ERROR : [quick.py] encountered a problem running.")
