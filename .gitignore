@@ -1,2 +1,4 @@
-/cache
-/__pycache__
+boot/__pycache__/helpers.cpython-313.pyc
+boot/__pycache__/importers.cpython-313.pyc
+df.py
+imports.py
