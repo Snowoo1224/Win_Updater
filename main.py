@@ -1,26 +1,54 @@
 from boot.importers import *
-from boot.helpers import *
-import platform
-import win32com.client
-from colorama import init, Fore
 
-init()
+import platform
+from colorama import Fore
 
 GR = Fore.GREEN
 YL = Fore.YELLOW
 MA = Fore.LIGHTMAGENTA_EX
 NO = Fore.WHITE
 BL = Fore.LIGHTBLUE_EX
+CY = Fore.CYAN
 
-if not is_admin() :
-    run_as_admin(sys.argv[0])
-    sys.exit()
+def setup_console():
+    os.system("mode con cols=79 lines=39")
+
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
     
-if os.name != "nt" :
-    print(YL + "ERROR" + NO + " : This program unsupport at this platform.")
-    input("Press Enter to Exit...")
-    sys.exit()
+def back_home() :
+        clear_screen()
+        home_screen()   
+
+def home_screen() :
+    win_updater_logo()
+    print("                    ┌────────────────────────────────────┐")
+    print("                    │                                    │")
+    print("                    │      1 . Host information          │")
+    print("                    │      2 . Program information       │")
+    print("                    │      3 . Update                    │")
+    print("                    │                                    │")
+    print("                    └────────────────────────────────────┘")    
     
+def win_updater_logo():
+    print()
+    print()
+    print()
+    print("                    ┌────────────────────────────────────┐")
+    print("                    │                                    │")
+    print("                    │             " + CY + "╔═══╗ ╔═══╗" + NO + "            │")
+    print("                    │             " + CY + "║   ║ ║   ║" + NO + "            │")
+    print("                    │             " + CY + "╚═══╝ ╚═══╝" + NO + "            │")
+    print("                    │             " + CY + "╔═══╗ ╔═══╗" + NO + "            │")
+    print("                    │             " + CY + "║   ║ ║   ║" + NO + "            │")
+    print("                    │             " + CY + "╚═══╝ ╚═══╝" + NO + "            │")
+    print("                    │                                    │")
+    print("                    │            " + CY + " Win Updater" + NO + "            │")
+    print("                    │                                    │")
+    print("                    └────────────────────────────────────┘")
+    print()
+    
+setup_console()
 home_screen()
 
 while True :
@@ -59,7 +87,7 @@ while True :
         print("                    │                                    │")
         print("                    │        " + YL + " Program information" + NO + "        │")
         print("                    │                                    │")
-        print("                    │          Version : " + GR + "1.0.1R" + NO + "          │")
+        print("                    │          Version : " + GR + "1.0.3R" + NO + "          │")
         print("                    │        Builder : " + BL + "Snowoo1224" + NO + "        │")
         print("                    │                                    │")
         print("                    └────────────────────────────────────┘")
@@ -69,21 +97,19 @@ while True :
     if choose == "3":
         try:
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            quick_py_path = os.path.join(current_dir, 'quick.py')
-            python_exe = sys.executable
-            result = subprocess.run([python_exe, quick_py_path])
+            quick_py_path = os.path.join(current_dir, 'quick', 'quick.exe')
+            result = subprocess.run([quick_py_path])
             
-            if result.returncode == 0:
-                print("                          No update exists to install")
-                input("                             Press Enter to Exit...")
+            if result.returncode == 0 :
                 clear_screen()
                 home_screen()
                 
-            if result.returncode == 1:
+            if result.returncode == 1 :
                 clear_screen()
                 home_screen()
 
         except FileNotFoundError:
             print("MISSING : [quick.py] file not found.")
+            
         except Exception as e:
             print(f"ERROR : [quick.py] encountered a problem running.")

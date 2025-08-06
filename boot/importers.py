@@ -1,5 +1,11 @@
+import os
 import sys
 import subprocess
+
+if os.name != "nt" :
+    print(YL + "ERROR" + NO + " : This program unsupport at this platform.")
+    input("Press Enter to Exit...")
+    sys.exit()
 
 try:
     from colorama import init, Fore
