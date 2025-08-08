@@ -6,8 +6,27 @@ import platform
 import winsound
 import keyboard
 import subprocess
-from colorama import Fore
 
+try :
+    from colorama import init, Fore
+except ModuleNotFoundError :
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "colorama"])
+
+try :
+    import readchar
+except ModuleNotFoundError :
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "readchar"])
+
+try :
+    import win32com.client
+except ModuleNotFoundError :
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "pywin32"])
+    
+try :
+    import keyboard
+except ModuleNotFoundError :
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "pywin32"])
+    
 GR = Fore.GREEN
 YL = Fore.YELLOW
 MA = Fore.LIGHTMAGENTA_EX
@@ -86,17 +105,3 @@ if os.name != "nt" :
     input("Press Enter to Exit...")
     sys.exit()
 
-try :
-    from colorama import init, Fore
-except ModuleNotFoundError :
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "colorama"])
-
-try :
-    import readchar
-except ModuleNotFoundError :
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "readchar"])
-
-try :
-    import win32com.client
-except ModuleNotFoundError :
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "pywin32"])
