@@ -1,89 +1,73 @@
 from boot.importers import *
-from boot.helpers import *
-import platform
-import win32com.client
-from colorama import init, Fore
 
-init()
 
-GR = Fore.GREEN
-YL = Fore.YELLOW
-MA = Fore.LIGHTMAGENTA_EX
-NO = Fore.WHITE
-BL = Fore.LIGHTBLUE_EX
+setup_console()
 
-if not is_admin() :
-    run_as_admin(sys.argv[0])
-    sys.exit()
-    
-if os.name != "nt" :
-    print(YL + "ERROR" + NO + " : This program unsupport at this platform.")
-    input("Press Enter to Exit...")
-    sys.exit()
-    
-home_screen()
 
 while True :
-    choose = input()
-    if choose == "1" :
+    selected_choice = home_move()
+    if selected_choice == 0 :
         clear_screen()
         win_updater_logo()
-        print("                    ┌────────────────────────────────────┐")
-        print("                    │                                    │")
-        print("                    │          " + YL + "Host information" + NO + "          │")
-        print("                    │                                    │")
-        print("                    │        Windows :" + CY + "", end=' ')
-        print(platform.version() + NO + "        │")
-        print("                    │        Architecture :" + MA + "", end=' ')
-        print(platform.machine() + NO + "        │")
-        print("                    │          Python :" + YL + "", end=' ')
-        print(platform.python_version() + NO + "           │")
-        print("                    │                                    │")
-        print("                    └────────────────────────────────────┘")
-        input()
-        back_home()
+        print(" "*10+"┌"+"─"*36+"┐")
+        print(" "*10+"│"+" "*36+"│")
+        print(" "*10+"│          " + YL + "Host information" + NO + " "*10+"│")
+        print(" "*10+"│                                    │")
+        print(" "*10+"│        Windows :" + CY + "", end=' ')
+        print(platform.version() + NO + " "*8+"│")
+        print(" "*10+"│        Architecture :" + MA + "", end=' ')
+        print(platform.machine() + NO + " "*8+"│")
+        print(" "*10+"│          Python :" + YL + "", end=' ')
+        print(platform.python_version() + NO + " "*11+"│")
+        print(" "*10+"│"+" "*36+"│")
+        print(" "*10+"└"+"─"*36+"┘")
+        keyboard.wait("enter")
+        time.sleep(0.3)
         
-    if choose == "2" :
+    elif selected_choice == 1 :
         clear_screen()
         print()
         print()
         print()
-        print("                    ┌────────────────────────────────────┐")
-        print("                    │                                    │")
-        print("                    │             " + CY + "╔═══╗ ╔═══╗" + NO + "            │")
-        print("                    │             " + CY + "║   ║ ║   ║" + NO + "            │")
-        print("                    │             " + CY + "╚═══╝ ╚═══╝" + NO + "            │")
-        print("                    │             " + CY + "╔═══╗ ╔═══╗" + NO + "            │")
-        print("                    │             " + CY + "║   ║ ║   ║" + NO + "            │")
-        print("                    │             " + CY + "╚═══╝ ╚═══╝" + NO + "            │")
-        print("                    │                                    │")
-        print("                    │        " + YL + " Program information" + NO + "        │")
-        print("                    │                                    │")
-        print("                    │          Version : " + GR + "1.0.1R" + NO + "          │")
-        print("                    │        Builder : " + BL + "Snowoo1224" + NO + "        │")
-        print("                    │                                    │")
-        print("                    └────────────────────────────────────┘")
-        input()
-        back_home()
+        print()
+        print(" "*10+"┌"+"─"*36+"┐")
+        print(" "*10+"│"+" "*36+"│")
+        print(" "*10+"│             " + CY + "╔═══╗ ╔═══╗" + NO + " "*12+"│")
+        print(" "*10+"│             " + CY + "║   ║ ║   ║" + NO + " "*12+"│")
+        print(" "*10+"│             " + CY + "╚═══╝ ╚═══╝" + NO + " "*12+"│")
+        print(" "*10+"│             " + CY + "╔═══╗ ╔═══╗" + NO + " "*12+"│")
+        print(" "*10+"│             " + CY + "║   ║ ║   ║" + NO + " "*12+"│")
+        print(" "*10+"│             " + CY + "╚═══╝ ╚═══╝" + NO + " "*12+"│")
+        print(" "*10+"│                                    │")
+        print(" "*10+"│        " + YL + " Program information" + NO + " "*8+"│")
+        print(" "*10+"│                                    │")
+        print(" "*10+"│          Version : " + GR + "1.0.4R" + NO + " "*10+"│")
+        print(" "*10+"│        Builder : " + BL + "Snowoo1224" + NO + " "*8+"│")
+        print(" "*10+"│"+" "*36+"│")
+        print(" "*10+"└"+"─"*36+"┘")
+        keyboard.wait("enter")
+        time.sleep(0.3)
             
-    if choose == "3":
+    elif selected_choice == 2 :
         try:
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            quick_py_path = os.path.join(current_dir, 'quick.py')
-            python_exe = sys.executable
-            result = subprocess.run([python_exe, quick_py_path])
+            quick_py_path = os.path.join(current_dir, 'quick', 'quick.exe')
+            result = subprocess.run([quick_py_path])
             
-            if result.returncode == 0:
-                print("                          No update exists to install")
-                input("                             Press Enter to Exit...")
-                clear_screen()
-                home_screen()
+            if result.returncode == 0 :
+                input()
                 
-            if result.returncode == 1:
-                clear_screen()
-                home_screen()
-
+            if result.returncode == 1 :
+                input()
+                
         except FileNotFoundError:
-            print("MISSING : [quick.py] file not found.")
+            winsound.PlaySound("SystemDefault", winsound.SND_ALIAS)
+            print(" "*11+"MISSING : [quick.py] file not found.")
+            input(" "*18+"Press Enter to Exit...")
+            sys.exit()
+            
         except Exception as e:
-            print(f"ERROR : [quick.py] encountered a problem running.")
+            winsound.PlaySound("SystemDefault", winsound.SND_ALIAS)
+            print(f"    ERROR : [quick.py] encountered a problem running.")
+            input(" "*18+"Press Enter to Exit...")
+            sys.exit()
