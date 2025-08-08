@@ -8,6 +8,7 @@ import subprocess
 
 try :
     from colorama import init, Fore
+    init()
 except ModuleNotFoundError :
     subprocess.check_call([sys.executable, "-m", "pip", "install", "colorama"])
 
