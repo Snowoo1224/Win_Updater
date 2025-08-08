@@ -4,7 +4,6 @@ import time
 import ctypes
 import platform
 import winsound
-import keyboard
 import subprocess
 
 try :
@@ -25,7 +24,7 @@ except ModuleNotFoundError :
 try :
     import keyboard
 except ModuleNotFoundError :
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "pywin32"])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "keyboard"])
     
 GR = Fore.GREEN
 YL = Fore.YELLOW
