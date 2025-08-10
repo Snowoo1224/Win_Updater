@@ -5,27 +5,31 @@ import ctypes
 import platform
 import winsound
 import subprocess
-
+ 
 try :
     from colorama import init, Fore
     init()
 except ModuleNotFoundError :
     subprocess.check_call([sys.executable, "-m", "pip", "install", "colorama"])
+    sys.exit()
 
 try :
     import readchar
 except ModuleNotFoundError :
     subprocess.check_call([sys.executable, "-m", "pip", "install", "readchar"])
+    sys.exit()
 
 try :
     import win32com.client
 except ModuleNotFoundError :
     subprocess.check_call([sys.executable, "-m", "pip", "install", "pywin32"])
+    sys.exit()
     
 try :
     import keyboard
 except ModuleNotFoundError :
     subprocess.check_call([sys.executable, "-m", "pip", "install", "keyboard"])
+    sys.exit()
     
 GR = Fore.GREEN
 YL = Fore.YELLOW
@@ -33,6 +37,12 @@ MA = Fore.LIGHTMAGENTA_EX
 NO = Fore.WHITE
 BL = Fore.LIGHTBLUE_EX
 CY = Fore.CYAN
+RD = Fore.RED
+
+if os.name != "nt" :
+    print(YL + "ERROR" + NO + " : This program unsupport at this platform.")
+    input("Press Enter to Exit...")
+    sys.exit()
 
 selected_index = 0
 
@@ -98,10 +108,5 @@ def home_move() :
         elif key == "enter" :
             return selected_index
             
-        time.sleep(.16)
-
-if os.name != "nt" :
-    print(YL + "ERROR" + NO + " : This program unsupport at this platform.")
-    input("Press Enter to Exit...")
-    sys.exit()
-
+        time.sleep(.14)
+        
