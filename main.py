@@ -22,9 +22,9 @@ while True :
         print(" " * 10 + "│"+" " * 36 + "│")
         print(" " * 10 + "└"+"─" * 36 + "┘")
         keyboard.wait("enter")
-        time.sleep(0.3)
-        
-        
+        time.sleep(0.25)
+
+
     elif selected_choice == 1 :
         clear_screen()
         print()
@@ -42,32 +42,32 @@ while True :
         print(" " * 10 + "│" + " " * 36 + "│")
         print(" " * 10 + "│        " + YL + " Program information" + NO + " " * 8 + "│")
         print(" " * 10 + "│" + " " * 36 + "│")
-        print(" " * 10 + "│          Version : " + GR + "1.0.5R" + NO + " " * 10 + "│")
+        print(" " * 10 + "│          Version : " + GR + "1.0.6R" + NO + " " * 10 + "│")
         print(" " * 10 + "│        Builder : " + BL + "Snowoo1224" + NO + " " * 8 + "│")
         print(" " * 10 + "│"+" " * 36 + "│")
         print(" " * 10 + "└"+"─" * 36 + "┘")
         keyboard.wait("enter")
-        time.sleep(0.3)
-            
+        time.sleep(0.25)
+
 
     elif selected_choice == 2 :
         try:
             current_dir = os.path.dirname(os.path.abspath(__file__))
             quick_py_path = os.path.join(current_dir, 'quick', 'quick.exe')
             result = subprocess.run([quick_py_path])
-                           
-        except FileNotFoundError:
+            
+        except FileNotFoundError :
             print()
             winsound.PlaySound("SystemDefault", winsound.SND_ALIAS)
-            print(" " * 11 + RD + "MISSING" + NO + " [quick.exe] file not found.")
+            print(" " * 11 + RD + "MISSING" + NO + " : [quick.exe] file not found.")
             print(" " * 18 + "Press Enter to Exit...")
             keyboard.wait("enter")
             sys.exit()
             
-        except Exception as e:
+        except Exception as e :
             print()
             winsound.PlaySound("SystemDefault", winsound.SND_ALIAS)
-            print("    " + YL + "ERROR" + NO + " [quick.exe] encountered a problem running.")
+            print("    " + YL + "ERROR" + NO + " : [quick.exe] encountered a problem running.")
             print(" " * 18 + "Press Enter to Exit...")
             keyboard.wait("enter")
             sys.exit()
